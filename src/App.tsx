@@ -1,13 +1,19 @@
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import Body from './Containers/Body';
+import { theme } from './theme/theme';
 
-import './App.css';
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <button>Hello</button>
-    </div>
-  );  
+   return (
+      <ThemeProvider theme={theme}>
+         <Body>
+         
+         </Body>
+      </ThemeProvider>
+   );
 }
 
 export default App;
