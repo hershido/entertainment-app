@@ -1,6 +1,4 @@
-export { default as IconBookmarkEmpty } from "./IconBookmarkEmpty";
-export { default as IconBookmarkFull } from "./IconBookmarkFull";
-export { default as IconBookmarkHover } from "./IconBookmarkHover";
+export { default as IconBookmark } from "./IconBookmark";
 export { default as IconCategoryMovie } from "./IconCategoryMovie";
 export { default as IconCategoryTv } from "./IconCategoryTv";
 export { default as IconNavBookmark } from "./IconNavBookmark";

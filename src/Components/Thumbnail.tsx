@@ -7,40 +7,24 @@ const StyledThumbnail = styled.div`
    display: grid;
    border-radius: 8px;
    overflow: hidden;
-   /* height:174px; */
+   height: 100%;
    .bookmark-image {
       width: 100%;
-      grid-area: 1/1/2/2;
-   }
-
-   .play-button {
-      grid-area: 1/1/2/2;
-      justify-self: center;
-      align-self: center;
-      border: 1px solid red;
-      width: 100%;
       height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      background-color: ${({ theme }) => theme.colors.blue.darkHalfTransparent};
+      object-fit: cover;
+      grid-area: 1/1/2/2;
    }
+
+
 `;
 
-export const Thumbnail: React.FC<{ thumbnail?: string }> = ({ thumbnail = 'large.jpg' }) => {
-   const [isHovered, setIsHovered] = useState(false);
+export const Thumbnail: React.FC<{ thumbnail?: string; className: string }> = ({
+   thumbnail = 'large.jpg',
+   className,
+}) => {
    return (
-      <StyledThumbnail
-         onMouseEnter={() => setIsHovered(true)}
-         onMouseLeave={() => setIsHovered(false)}>
+      <StyledThumbnail className={className}>
          <img className='bookmark-image' src={thumbnail}></img>
-         {isHovered && (
-            <div className='play-button'>
-               <PlayButton />
-            </div>
-         )}
-         <Bookmark />
       </StyledThumbnail>
    );
 };

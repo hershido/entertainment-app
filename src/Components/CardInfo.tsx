@@ -32,7 +32,6 @@ export const CardInfo: React.FC<CardInfoProps> = ({programType, year, rating}) =
          <div className='dot'></div>
          <img src={MovieCategory} alt='' />
          <p>{programType}</p>
-         <div className='dot'></div>
          <p>{rating}</p>
       </StyledCardInfo>
    );

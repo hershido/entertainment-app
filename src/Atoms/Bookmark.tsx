@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { IconBookmark } from '../IconComponents';
 import EmptyBookmark from '../Icons/icon-bookmark-empty.svg';
 import FullBookmark from '../Icons/icon-bookmark-full.svg';
 import HoverBookmark from '../Icons/icon-bookmark-hover.svg';
 
-const StyledBookmark = styled.div`
+const StyledBookmark = styled.div<{ isHovered: boolean }>`
    grid-area: 1/1/2/2;
-   background-color: ${({ theme }) => theme.colors.blue.darkHalfTransparent};
+   background-color: ${({ theme, isHovered }) =>
+      isHovered ? theme.colors.white.full : theme.colors.blue.darkHalfTransparent};
    display: flex;
    justify-content: center;
    align-items: center;
@@ -25,9 +27,17 @@ export const Bookmark = () => {
 
    return (
       <StyledBookmark
+         onClick={() => {
+            setIsBookMarked(!isBookmarked);
+            setIsHovered(false);
+         }}
+         isHovered={isHovered}
          onMouseEnter={() => setIsHovered(true)}
          onMouseLeave={() => setIsHovered(false)}>
-         {isHovered ? <img src={HoverBookmark} alt='' /> : <img src={isBookmarked ? FullBookmark : EmptyBookmark} alt='' />}
+         <IconBookmark
+            stroke={isHovered ? '#000000' : '#ffffff'}
+            fill={isBookmarked ? '#ffffff' : 'none'}
+         />
       </StyledBookmark>
    );
 };
