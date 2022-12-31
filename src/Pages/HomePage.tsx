@@ -10,11 +10,10 @@ import Slider from '../Containers/Slider';
 const StyledHomePage = styled.div`
    position: relative;
    display: grid;
-   grid-auto-flow: column;
-   grid-template-columns: max-content 1fr;
+
    width: 100%;
    padding: 32px;
-   column-gap: 32px;
+   gap: 32px;
 
    .right-container {
       display: grid;
@@ -22,12 +21,21 @@ const StyledHomePage = styled.div`
       overflow: hidden;
       row-gap: 32px;
    }
+
+   @media screen and (min-width: 1025px) {
+      grid-auto-flow: column;
+      grid-template-columns: max-content 1fr;
+   }
+   @media screen and (min-width: 751px) and (max-width: 1024px) {
+      grid-auto-flow: row;
+      /* grid-template-columns: max-content 1fr; */
+   }
 `;
 
 const HomePage = () => {
    return (
       <StyledHomePage>
-         <Nav />
+         <Nav className='nav' />
          <div className='right-container'>
             <Search />
             <Heading>Trending</Heading>

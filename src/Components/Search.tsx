@@ -22,7 +22,7 @@ const StyledSearch = styled.input`
 
 export const Search = () => {
    return (
-      <Flex gap='24px' alignItems='flex-start'>
+      <Flex gap='24px'>
          <img src={SearchIcon} alt='' />
          <StyledSearch type='text' placeholder='Search for movies or TV series' />
       </Flex>
