@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 type FlexProps = {
    children: React.ReactNode;
@@ -11,29 +12,15 @@ type FlexProps = {
    className?: string;
 };
 
-export const Flex: React.FC<FlexProps> = ({
-   children,
-   direction = 'row',
-   justifyContent = 'flex-start',
-   alignItems = 'stretch',
-   style = {},
-   gap,
-   width,
-   className
-}) => {
-   return (
-      <div
-         className={className}
-         style={{
-            display: 'flex',
-            flexDirection: direction,
-            justifyContent: justifyContent,
-            alignItems: alignItems,
-            gap,
-            width,
-            ...style,
-         }}>
-         {children}
-      </div>
-   );
-};
+export const StyledFlex = styled.div<FlexProps>`
+   display: flex;
+   flex-direction: ${(props) => props.direction || 'row'};
+   justify-content: ${(props) => props.justifyContent || 'flex-start'};
+   align-items: ${(props) => props.alignItems || 'flex-start'};
+   gap: ${(props) => props.gap};
+   width: ${(props) => props.width};
+`;
+
+export const Flex: React.FC<FlexProps> = (props) => <StyledFlex {...props}>{props.children}</StyledFlex>;
+
+
