@@ -5,7 +5,7 @@ const StyledSlider = styled.div`
    width: 100%;
    height: 230px;
    overflow-x: scroll;
-   
+   border-radius: 8px 0 0 8px;
    &::-webkit-scrollbar {
       display: none;
    }

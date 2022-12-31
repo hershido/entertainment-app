@@ -12,12 +12,10 @@ const StyledHomePage = styled.div`
    display: grid;
 
    width: 100%;
-   padding: 32px;
    gap: 32px;
 
    .right-container {
       display: grid;
-      width: 100%;
       overflow: hidden;
       row-gap: 32px;
    }
@@ -25,9 +23,28 @@ const StyledHomePage = styled.div`
    @media screen and (min-width: 1025px) {
       grid-auto-flow: column;
       grid-template-columns: max-content 1fr;
+   
+
+      .right-container {
+         margin-top: 32px;
+         margin-bottom: 32px;
+      }
+
+      .card-grid {
+         margin: 0px 32px 0px 0px;
+      }
    }
    @media screen and (min-width: 751px) and (max-width: 1024px) {
       grid-auto-flow: row;
+      .card-grid {
+         margin: 0px 24px 0px 0px;
+      }
+
+      .right-container {
+         margin-left: 24px;
+      }
+
+     
       /* grid-template-columns: max-content 1fr; */
    }
 `;
@@ -98,7 +115,7 @@ const HomePage = () => {
                />
             </Slider>
             <Heading>Recommended for you</Heading>
-            <CardGrid>
+            <CardGrid className='card-grid'>
                <ProgramCard
                   cardType='card-grid'
                   programTitle='Shooko'
