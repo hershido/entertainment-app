@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Bookmark } from '../Atoms/Bookmark';
+import { Bookmark } from '../atoms/Bookmark';
 import { PlayButton } from './PlayButton';
 
 const StyledThumbnail = styled.div`
@@ -14,8 +14,6 @@ const StyledThumbnail = styled.div`
       object-fit: cover;
       grid-area: 1/1/2/2;
    }
-
-
 `;
 
 export const Thumbnail: React.FC<{ thumbnail?: string; className: string }> = ({

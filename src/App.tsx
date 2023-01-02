@@ -1,10 +1,10 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import Nav from './Components/Nav';
-import { ProgramCard } from './Components/ProgramCard';
-import Body from './Containers/Body';
-import { CardGrid } from './Containers/CardGrid';
-import Slider from './Containers/Slider';
+import Nav from './components/Nav';
+import { ProgramCard } from './components/ProgramCard';
+import Body from './containers/Body';
+import { CardGrid } from './containers/CardGrid';
+import Slider from './containers/Slider';
 import HomePage from './Pages/HomePage';
 import { theme } from './theme/theme';
 
@@ -12,7 +12,7 @@ function App() {
    return (
       <ThemeProvider theme={theme}>
          <Body>
-            <HomePage/>
+            <HomePage />
          </Body>
       </ThemeProvider>
    );

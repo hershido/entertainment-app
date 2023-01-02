@@ -1,13 +1,12 @@
-import { Button } from '../Atoms/Button';
+import { Button } from '../atoms/Button';
 import styled from 'styled-components';
 import PlayIcon from '../Icons/play-button.svg';
-import { Heading } from '../Atoms/Heading';
-
+import { Heading } from '../atoms/Heading';
 
 const StyledPlayButton = styled(Button)`
    width: 117px;
    height: 48px;
-   background-color:  ${({theme}) => theme.colors.white.quarter};
+   background-color: ${({ theme }) => theme.colors.white.quarter};
    border-radius: 28px;
    display: flex;
    justify-content: space-between;
@@ -16,7 +15,7 @@ const StyledPlayButton = styled(Button)`
    cursor: pointer;
 
    &:hover {
-      background-color:  ${({theme}) => theme.colors.white.quarter};
+      background-color: ${({ theme }) => theme.colors.white.quarter};
       color: ${(props) => props.theme.colors.blue.semiDark};
    }
 `;

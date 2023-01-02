@@ -17,6 +17,12 @@ const StyledCardInfo = styled.div`
       background-color: ${({ theme }) => theme.colors.white.threeQuarters};
       border-radius: 50%;
    }
+
+   @media screen and (max-width: 750px) {
+      p {
+         font-size: 12px;
+      }
+   }
 `;
 
 interface CardInfoProps {
@@ -25,7 +31,7 @@ interface CardInfoProps {
    rating: 'PG' | 'PG-13' | 'R';
 }
 
-export const CardInfo: React.FC<CardInfoProps> = ({programType, year, rating}) => {
+export const CardInfo: React.FC<CardInfoProps> = ({ programType, year, rating }) => {
    return (
       <StyledCardInfo>
          <p>{year}</p>

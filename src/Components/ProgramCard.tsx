@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Bookmark } from '../Atoms/Bookmark';
-import { Heading } from '../Atoms/Heading';
+import { Bookmark } from '../atoms/Bookmark';
+import { Heading } from '../atoms/Heading';
+import Body from '../containers/Body';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 import { CardInfo } from './CardInfo';
 import { PlayButton } from './PlayButton';
 import { Thumbnail } from './Thumbnail';
 
 export const StyledProgramCard = styled.div<{ cardType: 'card-grid' | 'trending' }>`
    display: grid;
-   grid-template-rows: ${({ cardType }) => (cardType === 'trending' ? '230px' : '174px auto')};
+   grid-template-rows: ${({ cardType }) => cardType === 'trending' && '230px'};
    .thumbnail,
    .play-button {
       grid-area: 1/1/2/2;
@@ -24,6 +26,15 @@ export const StyledProgramCard = styled.div<{ cardType: 'card-grid' | 'trending'
       align-items: center;
       background-color: ${({ theme }) => theme.colors.blue.darkHalfTransparent};
       grid-area: 1/1/2/2;
+   }
+
+   @media screen and (max-width: 750px) {
+      grid-template-rows: ${({ cardType }) => cardType === 'trending' && '140px'};
+      .card-info {
+
+         margin: ${({ cardType }) => cardType === 'trending' && '0px 0px 16px 16px'};
+      }
+
    }
 `;
 
@@ -45,6 +56,7 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
    cardType,
 }) => {
    const [isHovered, setIsHovered] = useState(false);
+   const breakpoint = useBreakpoint();
    return (
       <StyledProgramCard
          cardType={cardType}
@@ -59,7 +71,11 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
          <Bookmark />
          <div className='card-info'>
             <CardInfo programType={programType} year={year} rating={rating} />
-            <Heading size={cardType === 'trending' ? 'S' : 'XS'}>{programTitle}</Heading>
+            {breakpoint !== 'mobile' ? (
+               <Heading size={cardType === 'trending' ? 'S' : 'XS'}>{programTitle}</Heading>
+            ) : (
+               <p>{programTitle}</p>
+            )}
          </div>
       </StyledProgramCard>
    );

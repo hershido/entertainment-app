@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { IconBookmark } from '../IconComponents';
+import { IconBookmark } from '../iconComponents';
 import EmptyBookmark from '../Icons/icon-bookmark-empty.svg';
 import FullBookmark from '../Icons/icon-bookmark-full.svg';
 import HoverBookmark from '../Icons/icon-bookmark-hover.svg';

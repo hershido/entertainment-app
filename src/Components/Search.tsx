@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { Flex } from '../Containers/Flex';
+import { Flex } from '../containers/Flex';
 import SearchIcon from '../Icons/icon-search.svg';
 
+
 const StyledSearch = styled.input`
-   width: 100%;
-   padding-bottom: 15px;
+   width: calc(100% - 92px);
+   height: 50px;
    background-color: transparent;
    border: none;
    outline: none;
@@ -18,12 +19,33 @@ const StyledSearch = styled.input`
    &:focus {
       border-bottom: 1px solid;
    }
+
+   @media screen and (max-width: 750px) {
+      font-size: 16px;
+   }
+`;
+
+const StyledSearchIcon = styled.img`
+   @media screen and (min-width: 1025px) {
+      width: 24px;
+      margin-top: 3px;
+      margin-right: 24px;
+   }
+   @media screen and (min-width: 751px) and (max-width: 1024px) {
+      width: 24px;
+      margin-right: 24px;
+   }
+   @media screen and (max-width: 750px) {
+      width: 18px;
+      margin-right: 16px;
+   }
 `;
 
 export const Search = () => {
    return (
-      <Flex gap='24px'>
-         <img src={SearchIcon} alt='' />
+      <Flex alignItems='center'>
+         <StyledSearchIcon src={SearchIcon} alt='' />
+         {/* <IconSearch/> */}
          <StyledSearch type='text' placeholder='Search for movies or TV series' />
       </Flex>
    );

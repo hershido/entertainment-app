@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, SVGProps, useState } from 'react';
+import React, { SVGProps, useState } from 'react';
 import { theme } from '../theme/theme';
 import styled from 'styled-components';
 
@@ -13,9 +13,8 @@ const StyledNavIcon = styled.div`
 `;
 
 export const NavIcon: React.FC<{
-   children?: ReactElement;
    Svg: React.FC<SVGProps<SVGSVGElement>>;
-}> = ({ children, Svg }) => {
+}> = ({ Svg }) => {
    const [navIconState, setNavIconState] = useState(navIconStates.IDLE);
 
    return (
@@ -28,7 +27,9 @@ export const NavIcon: React.FC<{
          }
          onClick={() =>
             setNavIconState(
-               navIconState === navIconStates.IDLE || navIconStates.HOVERED ? navIconStates.ACTIVE : navIconStates.IDLE
+               navIconState === navIconStates.IDLE || navIconStates.HOVERED
+                  ? navIconStates.ACTIVE
+                  : navIconStates.IDLE
             )
          }>
          <Svg fill={navIconState} />

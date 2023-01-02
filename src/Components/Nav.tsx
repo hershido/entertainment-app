@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Flex, StyledFlex } from '../Containers/Flex';
+import { Flex, StyledFlex } from '../containers/Flex';
 import Logo from '../Icons/logo.svg';
 
-import Avatar from '../Atoms/Avatar';
-import { NavIcon } from '../Atoms/NavIcon';
-import { IconNavBookmark, IconNavHome, IconNavMovies, IconNavTvSeries } from '../IconComponents';
+import Avatar from '../atoms/Avatar';
+import { NavIcon } from '../atoms/NavIcon';
+import { IconNavBookmark, IconNavHome, IconNavMovies, IconNavTvSeries } from '../iconComponents';
 import { isConstructorDeclaration } from 'typescript';
 
 const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
@@ -35,14 +35,21 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
    @media screen and (min-width: 751px) and (max-width: 1024px) {
       top: ${(props) => (props.isHeaderScrolled ? '0px' : '24px')};
       flex-direction: row;
-      padding: 24px;
+      justify-content: space-between;
+      padding: 20px;
       margin: ${(props) => (props.isHeaderScrolled ? '0px' : '24px 24px 0 24px')};
       border-radius: ${(props) => (props.isHeaderScrolled ? '0px' : '20px')};
-      filter: ${(props) => (props.isHeaderScrolled && 'drop-shadow(5px 5px 10px #000)')};
-      .avatar {
-         margin-left: auto;
-      }
+      filter: ${(props) => props.isHeaderScrolled && 'drop-shadow(5px 5px 10px #000)'};
       transition: all 0.5s;
+   }
+
+   @media screen and (max-width: 750px) {
+      top: 0;
+      justify-content: space-between;
+      border-radius: 0;
+      padding: 20px;
+      margin: 0;
+      gap: 0;
    }
 `;
 
