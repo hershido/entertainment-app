@@ -42,7 +42,7 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
       filter: ${(props) => props.isHeaderScrolled && 'drop-shadow(5px 5px 10px #000)'};
       transition: all 0.5s;
    }
-
+   
    @media screen and (max-width: 750px) {
       top: 0;
       justify-content: space-between;
@@ -50,6 +50,10 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
       padding: 20px;
       margin: 0;
       gap: 0;
+      margin: ${(props) => (props.isHeaderScrolled ? '0px' : '16px 16px 0 16px')};
+      border-radius: ${(props) => (props.isHeaderScrolled ? '0px' : '20px')};
+      filter: ${(props) => props.isHeaderScrolled && 'drop-shadow(5px 5px 10px #000)'};
+      transition: all 0.5s;
    }
 `;
 
