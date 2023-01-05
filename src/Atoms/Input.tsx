@@ -4,12 +4,11 @@ import styled from 'styled-components';
 
 const StyledWrapper = styled.div`
    position: relative;
-   width: max-content;
-   margin: 20px 0;
+   width: 100%;
 `;
 
 const StyledInput = styled.input<{ isValid: boolean }>`
-   width: 336px;
+   width: 100%;
    background-color: transparent;
    border: none;
    outline: none;
@@ -35,7 +34,7 @@ const StyledValidationMessage = styled.span`
    color: ${({ theme }) => theme.colors.red.main};
 `;
 
-export const Input: React.FC<{ placeholder: string; validationMessage?: string }> = ({
+export const Input: React.FC<{ placeholder?: string; validationMessage?: string }> = ({
    placeholder,
 }) => {
    const [isValid, setIsValid] = useState(true);
