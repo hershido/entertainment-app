@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import styled from 'styled-components';
-
 
 const StyledWrapper = styled.div`
    position: relative;
@@ -34,27 +33,29 @@ const StyledValidationMessage = styled.span`
    color: ${({ theme }) => theme.colors.red.main};
 `;
 
-export const Input: React.FC<{ placeholder?: string; validationMessage?: string }> = ({
-   placeholder,
-}) => {
-   const [isValid, setIsValid] = useState(true);
+export const Input = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+   ({ placeholder, type }, ref) => {
+      const [isValid, setIsValid] = useState(true);
 
-   function Validate() {
-      setIsValid(true);
+      function Validate() {
+         setIsValid(true);
+      }
+
+      function clearValidation() {
+         setIsValid(true);
+      }
+
+      return (
+         <StyledWrapper>
+            <StyledInput
+               type={type}
+               ref={ref}
+               onBlur={Validate}
+               onFocus={clearValidation}
+               placeholder={placeholder}
+               isValid={isValid}></StyledInput>
+            {!isValid && <StyledValidationMessage></StyledValidationMessage>}
+         </StyledWrapper>
+      );
    }
-
-   function clearValidation() {
-      setIsValid(true);
-   }
-
-   return (
-      <StyledWrapper>
-         <StyledInput
-            onBlur={Validate}
-            onFocus={clearValidation}
-            placeholder={placeholder}
-            isValid={isValid}></StyledInput>
-         {!isValid && <StyledValidationMessage></StyledValidationMessage>}
-      </StyledWrapper>
-   );
-};
+);

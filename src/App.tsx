@@ -4,6 +4,7 @@ import Body from './containers/Body';
 import { FormPage } from './Pages/FormPage';
 import HomePage from './Pages/HomePage';
 import { theme } from './theme/theme';
+import {} from './firebase/firebaseConfig'
 
 function App() {
    return (
