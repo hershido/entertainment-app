@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 const StyledWrapper = styled.div`
@@ -7,6 +7,7 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledInput = styled.input<{ isValid: boolean }>`
+   position: relative;
    width: 100%;
    background-color: transparent;
    border: none;
@@ -29,32 +30,35 @@ const StyledInput = styled.input<{ isValid: boolean }>`
 
 const StyledValidationMessage = styled.span`
    position: absolute;
+   text-align: right;
    top: 0;
+   right: 0;
    color: ${({ theme }) => theme.colors.red.main};
+   font-size: 13px;
+   width:50%;
 `;
 
-export const Input = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
-   ({ placeholder, type }, ref) => {
-      const [isValid, setIsValid] = useState(true);
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+   validation: {
+      isValid: boolean;
+      errorMessage: string;
+   };
+   setValidation: Dispatch<SetStateAction<{ isValid: boolean; errorMessage: string }>>;
+}
 
-      function Validate() {
-         setIsValid(true);
-      }
-
-      function clearValidation() {
-         setIsValid(true);
-      }
-
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+   ({ placeholder, type, validation, setValidation }, ref) => {
       return (
          <StyledWrapper>
             <StyledInput
                type={type}
                ref={ref}
-               onBlur={Validate}
-               onFocus={clearValidation}
+               onFocus={() => setValidation({ isValid: true, errorMessage: '' })}
                placeholder={placeholder}
-               isValid={isValid}></StyledInput>
-            {!isValid && <StyledValidationMessage></StyledValidationMessage>}
+               isValid={validation.isValid}></StyledInput>
+            {!validation.isValid && (
+               <StyledValidationMessage>{validation.errorMessage}</StyledValidationMessage>
+            )}
          </StyledWrapper>
       );
    }

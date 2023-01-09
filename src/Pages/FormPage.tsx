@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import BodyText from '../atoms/BodyText';
 import { Button } from '../atoms/Button';
@@ -9,6 +9,7 @@ import { Flex } from '../containers/Flex';
 import Logo from '../Icons/logo.svg';
 import { signInUser, createUser } from '../firebase/firebaseConfig';
 import { Link } from 'react-router-dom';
+import { useValidateForm } from '../hooks/useFormValidation';
 
 const StyledFormPage = styled(Flex)`
    img {
@@ -23,23 +24,21 @@ const StyledFormPage = styled(Flex)`
    }
 `;
 
+
+
 export const FormPage: React.FC<{ type: 'login' | 'signup' }> = ({ type }) => {
-   const emailInput = useRef<HTMLInputElement>(null);
-   const passwordInput = useRef<HTMLInputElement>(null);
-   const repeatPasswordInput = useRef<HTMLInputElement>(null);
-
-   const handleFormSubmit = (event: React.SyntheticEvent) => {
-      event.preventDefault();
-
-      const email = emailInput.current?.value;
-      const password = passwordInput.current?.value;
-      console.log(email, password);
-      // You can now use the email and password values as needed
-      if (email && password) {
-         console.log('submit');
-         createUser(email, password);
-      }
-   };
+   const {
+      emailValidation,
+      passwordValidation,
+      passwordConfirmValidation,
+      setEmailValidation,
+      setPasswordValidation,
+      setPasswordConfirmValidation,
+      handleFormSubmit,
+      emailInput,
+      passwordInput,
+      repeatPasswordInput,
+   } = useValidateForm();
 
    return (
       <StyledFormPage direction='column' alignItems='center' gap='82px'>
@@ -48,16 +47,30 @@ export const FormPage: React.FC<{ type: 'login' | 'signup' }> = ({ type }) => {
             <form onSubmit={handleFormSubmit}>
                <Flex direction='column' alignItems='stretch' gap='24px'>
                   <Heading>{type === 'login' ? 'Login' : 'Signup'}</Heading>
-                  <Input placeholder='Email address' type='email' ref={emailInput} />
-                  <Input placeholder='Password' type='password' ref={passwordInput} />
+                  <Input
+                     validation={emailValidation}
+                     setValidation={setEmailValidation}
+                     placeholder='Email address'
+                     type='email'
+                     ref={emailInput}
+                  />
+                  <Input
+                     validation={passwordValidation}
+                     setValidation={setPasswordValidation}
+                     placeholder='Password'
+                     type='password'
+                     ref={passwordInput}
+                  />
                   {type === 'signup' && (
                      <Input
+                        validation={passwordConfirmValidation}
+                        setValidation={setPasswordConfirmValidation}
                         placeholder='Repeat password'
                         type='password'
                         ref={repeatPasswordInput}
                      />
                   )}
-                  <Button width='100%'>
+                  <Button formNoValidate width='100%'>
                      {type === 'login' ? 'Login to your account' : 'Create an account'}{' '}
                   </Button>
                   <Flex justifyContent='center' gap='9px'>
