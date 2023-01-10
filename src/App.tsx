@@ -1,10 +1,10 @@
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Body from './containers/Body';
-import { FormPage } from './Pages/FormPage';
+import { SignUp } from './Pages/SignUp';
 import HomePage from './Pages/HomePage';
 import { theme } from './theme/theme';
-import {} from './firebase/firebaseConfig'
+import { Login } from './Pages/Login';
 
 function App() {
    return (
@@ -12,9 +12,9 @@ function App() {
          <Body>
             <BrowserRouter>
                <Routes>
-                  <Route path='/' element={<HomePage />}/>
-                  <Route path='/login' element={<FormPage type='login' />} />
-                  <Route path='/signup' element={<FormPage type='signup' />} />
+                  <Route path='/' element={<HomePage />} />
+                  <Route path='/signup' element={<SignUp />} />
+                  <Route path='/login' element={<Login />} />
                </Routes>
             </BrowserRouter>
          </Body>

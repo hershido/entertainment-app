@@ -1,20 +1,17 @@
 import { useRef, useState } from "react";
-import { createUser } from "../firebase/firebaseConfig";
+import { signInUser } from "../firebase/firebaseConfig";
 
-export function useValidateForm() {
+export function useValidateLogin() {
     const emailInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
-    const repeatPasswordInput = useRef<HTMLInputElement>(null);
+    
  
     const [emailValidation, setEmailValidation] = useState({ isValid: true, errorMessage: '' });
     const [passwordValidation, setPasswordValidation] = useState({
        isValid: true,
        errorMessage: '',
     });
-    const [passwordConfirmValidation, setPasswordConfirmValidation] = useState({
-       isValid: true,
-       errorMessage: '',
-    });
+
  
     const handleFormSubmit = (event: React.SyntheticEvent) => {
        event.preventDefault();
@@ -42,30 +39,20 @@ export function useValidateForm() {
           setPasswordValidation({ isValid: true, errorMessage: '' });
        }
  
-       // Validate repeat password
-       const repeatPassword = repeatPasswordInput.current?.value;
-       if (repeatPassword !== password) {
-          setPasswordConfirmValidation({ isValid: false, errorMessage: 'Passwords do not match' });
-          isFormValid = false;
-       } else {
-          setPasswordConfirmValidation({ isValid: true, errorMessage: '' });
-       }
- 
        if (email && password && isFormValid) {
-          createUser(email, password);
+          signInUser(email, password).then((user)=>{
+            console.log(user)
+          });
        }
     };
  
     return {
        emailValidation,
        passwordValidation,
-       passwordConfirmValidation,
        setEmailValidation,
        setPasswordValidation,
-       setPasswordConfirmValidation,
        handleFormSubmit,
        emailInput,
        passwordInput,
-       repeatPasswordInput,
     };
  }

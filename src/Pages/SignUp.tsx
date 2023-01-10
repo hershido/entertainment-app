@@ -1,4 +1,3 @@
-import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import BodyText from '../atoms/BodyText';
 import { Button } from '../atoms/Button';
@@ -7,9 +6,8 @@ import { Input } from '../atoms/Input';
 import Box from '../containers/Box';
 import { Flex } from '../containers/Flex';
 import Logo from '../Icons/logo.svg';
-import { signInUser, createUser } from '../firebase/firebaseConfig';
 import { Link } from 'react-router-dom';
-import { useValidateForm } from '../hooks/useFormValidation';
+import { useValidateSignUp } from '../hooks/useValidateSignUp';
 
 const StyledFormPage = styled(Flex)`
    img {
@@ -18,15 +16,12 @@ const StyledFormPage = styled(Flex)`
    h1 {
       margin-bottom: 16px;
    }
-
    button {
       margin-top: 16px;
    }
 `;
 
-
-
-export const FormPage: React.FC<{ type: 'login' | 'signup' }> = ({ type }) => {
+export const SignUp: React.FC = () => {
    const {
       emailValidation,
       passwordValidation,
@@ -38,7 +33,7 @@ export const FormPage: React.FC<{ type: 'login' | 'signup' }> = ({ type }) => {
       emailInput,
       passwordInput,
       repeatPasswordInput,
-   } = useValidateForm();
+   } = useValidateSignUp();
 
    return (
       <StyledFormPage direction='column' alignItems='center' gap='82px'>
@@ -46,7 +41,7 @@ export const FormPage: React.FC<{ type: 'login' | 'signup' }> = ({ type }) => {
          <Box width='400px'>
             <form onSubmit={handleFormSubmit}>
                <Flex direction='column' alignItems='stretch' gap='24px'>
-                  <Heading>{type === 'login' ? 'Login' : 'Signup'}</Heading>
+                  <Heading>Signup</Heading>
                   <Input
                      validation={emailValidation}
                      setValidation={setEmailValidation}
@@ -61,25 +56,23 @@ export const FormPage: React.FC<{ type: 'login' | 'signup' }> = ({ type }) => {
                      type='password'
                      ref={passwordInput}
                   />
-                  {type === 'signup' && (
-                     <Input
-                        validation={passwordConfirmValidation}
-                        setValidation={setPasswordConfirmValidation}
-                        placeholder='Repeat password'
-                        type='password'
-                        ref={repeatPasswordInput}
-                     />
-                  )}
+
+                  <Input
+                     validation={passwordConfirmValidation}
+                     setValidation={setPasswordConfirmValidation}
+                     placeholder='Repeat password'
+                     type='password'
+                     ref={repeatPasswordInput}
+                  />
+
                   <Button formNoValidate width='100%'>
-                     {type === 'login' ? 'Login to your account' : 'Create an account'}{' '}
+                     Create an account
                   </Button>
                   <Flex justifyContent='center' gap='9px'>
-                     <BodyText size='M'>
-                        {type === 'login' ? 'Don’t have an account?' : 'Already have an account?'}
-                     </BodyText>
-                     <Link to={type === 'login' ? '/signup' : '/login'}>
+                     <BodyText size='M'>Already have an account?</BodyText>
+                     <Link to='/login'>
                         <BodyText asButton className='redirect-cta' size='M'>
-                           {type === 'login' ? 'Sign up' : 'Log in'}
+                           Log in
                         </BodyText>
                      </Link>
                   </Flex>
