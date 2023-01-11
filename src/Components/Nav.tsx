@@ -7,7 +7,9 @@ import Logo from '../Icons/logo.svg';
 import Avatar from '../atoms/Avatar';
 import { NavIcon } from '../atoms/NavIcon';
 import { IconNavBookmark, IconNavHome, IconNavMovies, IconNavTvSeries } from '../iconComponents';
-import { isConstructorDeclaration } from 'typescript';
+import { Button } from '../atoms/Button';
+import { useAuth } from '../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
    .logo {
@@ -42,7 +44,7 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
       filter: ${(props) => props.isHeaderScrolled && 'drop-shadow(5px 5px 10px #000)'};
       transition: all 0.5s;
    }
-   
+
    @media screen and (max-width: 750px) {
       top: ${(props) => (props.isHeaderScrolled ? '0px' : '16px')};
       justify-content: space-between;
@@ -55,17 +57,28 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
       filter: ${(props) => props.isHeaderScrolled && 'drop-shadow(5px 5px 10px #000)'};
       transition: all 0.5s;
       .category-selection {
-         gap:30px;
+         gap: 30px;
       }
    }
 `;
 
 const Nav: React.FC<{ className: string }> = ({ className }) => {
+   const { signOutUser } = useAuth();
    const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
-
    const handleScroll = () => {
       setIsHeaderScrolled(window.scrollY > 200 ? true : false);
    };
+
+   const navigate = useNavigate();
+
+   async function handleSignout() {
+      try {
+         await signOutUser();
+         navigate('/login');
+      } catch (error) {
+         console.log(error);
+      }
+   }
 
    useEffect(() => {
       window.addEventListener('scroll', handleScroll);
@@ -86,6 +99,7 @@ const Nav: React.FC<{ className: string }> = ({ className }) => {
             justifyContent='space-between'
             alignItems='center'
             gap='40px'>
+            <Button onClick={handleSignout}>Log out</Button>
             <NavIcon Svg={IconNavHome} />
             <NavIcon Svg={IconNavMovies} />
             <NavIcon Svg={IconNavTvSeries} />

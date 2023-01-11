@@ -1,5 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+   getAuth,
+   createUserWithEmailAndPassword,
+   signInWithEmailAndPassword,
+   onAuthStateChanged,
+   signOut,
+} from 'firebase/auth';
 
 const firebaseConfig = {
    apiKey: 'AIzaSyAmrpu5sVePPyapmassBgE8O4WHnLFryjs',
@@ -20,8 +26,6 @@ export async function createUser(email: string, password: string) {
       .then((userCredential) => {
          // Signed in
          const user = userCredential.user;
-         console.log(user);
-
          // ...
       })
       .catch((error) => {
@@ -33,14 +37,22 @@ export async function createUser(email: string, password: string) {
 export async function signInUser(email: string, password: string) {
    return signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-         // Signed in
          const user = userCredential.user;
+         console.log('logged in:', user);
          return user;
-         // ...
       })
       .catch((error) => {
          const errorCode = error.code;
          const errorMessage = error.message;
-         return errorMessage;
+         console.log(errorMessage);
+         return error;
       });
+}
+
+export async function authStateChanged(setterFunction: (user: any) => void) {
+   return onAuthStateChanged(auth, setterFunction);
+}
+
+export async function signOutUser() {
+   return signOut(auth);
 }
