@@ -8,6 +8,7 @@ import { Flex } from '../containers/Flex';
 import Logo from '../Icons/logo.svg';
 import { Link } from 'react-router-dom';
 import { useValidateSignUp } from '../hooks/useValidateSignUp';
+import { extractErrorCode } from '../utils/extractErrorCode';
 
 const StyledFormPage = styled(Flex)`
    img {
@@ -33,6 +34,7 @@ export const SignUp: React.FC = () => {
       emailInput,
       passwordInput,
       repeatPasswordInput,
+      error,
    } = useValidateSignUp();
 
    return (
@@ -42,6 +44,11 @@ export const SignUp: React.FC = () => {
             <form onSubmit={handleFormSubmit}>
                <Flex direction='column' alignItems='stretch' gap='24px'>
                   <Heading>Signup</Heading>
+                  {error && (
+                     <BodyText size='M' asErrorMessage>
+                        {extractErrorCode(error.message)}
+                     </BodyText>
+                  )}
                   <Input
                      validation={emailValidation}
                      setValidation={setEmailValidation}

@@ -6,6 +6,7 @@ export function useValidateLogin() {
    const { signInUser } = useAuth();
    const emailInput = useRef<HTMLInputElement>(null);
    const passwordInput = useRef<HTMLInputElement>(null);
+   const [error, setError] = useState<any>();
 
    const navigate = useNavigate();
 
@@ -43,11 +44,10 @@ export function useValidateLogin() {
 
       if (email && password && isFormValid) {
          try {
-            const user = await signInUser(email, password);
-            console.log('loggedin:', user);
+            await signInUser(email, password);
             navigate('/');
          } catch (error) {
-            console.log(error);
+            setError(error);
          }
       }
    };
@@ -60,5 +60,6 @@ export function useValidateLogin() {
       handleFormSubmit,
       emailInput,
       passwordInput,
+      error
    };
 }

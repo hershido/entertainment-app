@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface BodyTextProps {
    size: 'M' | 'S';
+   asErrorMessage?:boolean;
    asButton?: boolean;  
 }
 
@@ -10,7 +11,8 @@ const BodyText = styled.span<BodyTextProps>`
    font-weight: ${(props) => props.theme.body[props.size].fontWeight};
    line-height: ${(props) => props.theme.body[props.size].lineHeight};
    font-family: ${(props) => props.theme.body[props.size].fontFamily};
-   color: ${({asButton,theme}) => asButton && theme.colors.red.main}
+   color: ${({asButton,theme}) => asButton && theme.colors.red.main};
+   color: ${({asErrorMessage,theme}) => asErrorMessage && theme.colors.red.main}
 `;
 
 export default BodyText;

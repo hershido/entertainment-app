@@ -8,6 +8,7 @@ import { Flex } from '../containers/Flex';
 import Logo from '../Icons/logo.svg';
 import { Link } from 'react-router-dom';
 import { useValidateLogin } from '../hooks/useValidateLogin';
+import { extractErrorCode } from '../utils/extractErrorCode';
 
 const StyledFormPage = styled(Flex)`
    img {
@@ -30,6 +31,7 @@ export const Login: React.FC = () => {
       handleFormSubmit,
       emailInput,
       passwordInput,
+      error,
    } = useValidateLogin();
 
    return (
@@ -39,6 +41,11 @@ export const Login: React.FC = () => {
             <form onSubmit={handleFormSubmit}>
                <Flex direction='column' alignItems='stretch' gap='24px'>
                   <Heading>Login</Heading>
+                  {error && (
+                     <BodyText size='M' asErrorMessage>
+                        {extractErrorCode(error.message)}
+                     </BodyText>
+                  )}
                   <Input
                      validation={emailValidation}
                      setValidation={setEmailValidation}

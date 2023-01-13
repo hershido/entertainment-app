@@ -63,11 +63,13 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
 `;
 
 const Nav: React.FC<{ className: string }> = ({ className }) => {
-   const { signOutUser } = useAuth();
+   const { signOutUser, currentUser } = useAuth();
    const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
    const handleScroll = () => {
       setIsHeaderScrolled(window.scrollY > 200 ? true : false);
    };
+
+   console.log(currentUser);
 
    const navigate = useNavigate();
 
@@ -99,6 +101,7 @@ const Nav: React.FC<{ className: string }> = ({ className }) => {
             justifyContent='space-between'
             alignItems='center'
             gap='40px'>
+            <span>{currentUser?.email}</span>
             <Button onClick={handleSignout}>Log out</Button>
             <NavIcon Svg={IconNavHome} />
             <NavIcon Svg={IconNavMovies} />

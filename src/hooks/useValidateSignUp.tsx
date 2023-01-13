@@ -8,6 +8,7 @@ export function useValidateSignUp() {
    const emailInput = useRef<HTMLInputElement>(null);
    const passwordInput = useRef<HTMLInputElement>(null);
    const repeatPasswordInput = useRef<HTMLInputElement>(null);
+   const [error, setError] = useState<any>();
 
    const [emailValidation, setEmailValidation] = useState({ isValid: true, errorMessage: '' });
    const [passwordValidation, setPasswordValidation] = useState({
@@ -56,10 +57,11 @@ export function useValidateSignUp() {
 
       if (email && password && isFormValid) {
          try {
-            const user = await createUser(email, password);
-            console.log('user created:', user);
+            await createUser(email, password);
             navigate('/');
-         } catch (error) {}
+         } catch (error: any) {
+            setError(error);
+         }
       }
    };
 
@@ -74,5 +76,6 @@ export function useValidateSignUp() {
       emailInput,
       passwordInput,
       repeatPasswordInput,
+      error,
    };
 }

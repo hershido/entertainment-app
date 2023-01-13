@@ -21,16 +21,15 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export async function createUser(email: string, password: string) {
-   console.log('create user');
-   createUserWithEmailAndPassword(auth, email, password)
+   return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
          // Signed in
          const user = userCredential.user;
+         return user;
          // ...
       })
       .catch((error) => {
-         const errorCode = error.code;
-         const errorMessage = error.message;
+         throw error;
       });
 }
 
@@ -38,14 +37,10 @@ export async function signInUser(email: string, password: string) {
    return signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
          const user = userCredential.user;
-         console.log('logged in:', user);
          return user;
       })
       .catch((error) => {
-         const errorCode = error.code;
-         const errorMessage = error.message;
-         console.log(errorMessage);
-         return error;
+         throw error;
       });
 }
 

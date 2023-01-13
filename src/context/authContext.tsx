@@ -1,16 +1,16 @@
-import { UserCredential } from 'firebase/auth';
+import { User } from 'firebase/auth';
 import { createContext, ReactNode, useState, useContext, useEffect } from 'react';
 import { createUser, signInUser, authStateChanged, signOutUser } from '../firebase/firebaseConfig';
 
 interface AuthContextValue {
-   currentUser: object;
-   createUser: (email: string, password: string) => Promise<void>;
-   signInUser: (email: string, password: string) => Promise<void>;
+   currentUser: User | undefined;
+   createUser: (email: string, password: string) => Promise<void | User>;
+   signInUser: (email: string, password: string) => Promise<void | User>;
    signOutUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue>({
-   currentUser: {},
+   currentUser: undefined,
    createUser,
    signInUser,
    signOutUser,
@@ -21,7 +21,7 @@ export function useAuth() {
 }
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-   const [currentUser, setCurrentUser] = useState({});
+   const [currentUser, setCurrentUser] = useState(undefined);
 
    const value = {
       currentUser,
