@@ -6,6 +6,7 @@ import HomePage from './Pages/HomePage';
 import { theme } from './theme/theme';
 import { Login } from './Pages/Login';
 import { AuthProvider } from './context/authContext';
+import { PrivateRoute } from './PrivateRoute';
 
 function App() {
    return (
@@ -14,7 +15,14 @@ function App() {
             <AuthProvider>
                <BrowserRouter>
                   <Routes>
-                     <Route path='/' element={<HomePage />} />
+                     <Route
+                        path='/'
+                        element={
+                           <PrivateRoute>
+                              <HomePage />
+                           </PrivateRoute>
+                        }
+                     />
                      <Route path='/signup' element={<SignUp />} />
                      <Route path='/login' element={<Login />} />
                   </Routes>
