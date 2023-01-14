@@ -63,24 +63,11 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
 `;
 
 const Nav: React.FC<{ className: string }> = ({ className }) => {
-   const { signOutUser, currentUser } = useAuth();
+   const { signOutUser } = useAuth();
    const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
    const handleScroll = () => {
       setIsHeaderScrolled(window.scrollY > 200 ? true : false);
    };
-
-   console.log(currentUser);
-
-   const navigate = useNavigate();
-
-   async function handleSignout() {
-      try {
-         await signOutUser();
-         navigate('/login');
-      } catch (error) {
-         console.log(error);
-      }
-   }
 
    useEffect(() => {
       window.addEventListener('scroll', handleScroll);
@@ -101,8 +88,7 @@ const Nav: React.FC<{ className: string }> = ({ className }) => {
             justifyContent='space-between'
             alignItems='center'
             gap='40px'>
-            <span>{currentUser?.email}</span>
-            <Button onClick={handleSignout}>Log out</Button>
+            <Button onClick={signOutUser}>sign out</Button>
             <NavIcon Svg={IconNavHome} />
             <NavIcon Svg={IconNavMovies} />
             <NavIcon Svg={IconNavTvSeries} />

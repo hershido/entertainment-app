@@ -6,7 +6,8 @@ import HomePage from './Pages/HomePage';
 import { theme } from './theme/theme';
 import { Login } from './Pages/Login';
 import { AuthProvider } from './context/authContext';
-import { PrivateRoute } from './PrivateRoute';
+import { PrivateRoute } from './Routes/PrivateRoute';
+import { FormRedirect } from './Routes/FormRedirect';
 
 function App() {
    return (
@@ -23,8 +24,22 @@ function App() {
                            </PrivateRoute>
                         }
                      />
-                     <Route path='/signup' element={<SignUp />} />
-                     <Route path='/login' element={<Login />} />
+                     <Route
+                        path='/signup'
+                        element={
+                           <FormRedirect>
+                              <SignUp />
+                           </FormRedirect>
+                        }
+                     />
+                     <Route
+                        path='/login'
+                        element={
+                           <FormRedirect>
+                              <Login />
+                           </FormRedirect>
+                        }
+                     />
                   </Routes>
                </BrowserRouter>
             </AuthProvider>

@@ -7,6 +7,7 @@ interface AuthContextValue {
    createUser: (email: string, password: string) => Promise<void | User>;
    signInUser: (email: string, password: string) => Promise<void | User>;
    signOutUser: () => Promise<void>;
+   waitingForUser: Boolean;
 }
 
 const AuthContext = createContext<AuthContextValue>({
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextValue>({
    createUser,
    signInUser,
    signOutUser,
+   waitingForUser: true,
 });
 
 export function useAuth() {
@@ -21,17 +23,22 @@ export function useAuth() {
 }
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-   const [currentUser, setCurrentUser] = useState(undefined);
+   const [currentUser, setCurrentUser] = useState();
+   const [waitingForUser, setWaitingForUser] = useState(true);
 
    const value = {
       currentUser,
       createUser,
       signInUser,
       signOutUser,
+      waitingForUser,
    };
 
    useEffect(() => {
-      authStateChanged((user) => setCurrentUser(user));
+      authStateChanged((user) => {
+         setCurrentUser(user);
+         setWaitingForUser(false);
+      });
    }, []);
 
    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
