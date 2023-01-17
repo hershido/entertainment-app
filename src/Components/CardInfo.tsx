@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MovieCategory from '../Icons/icon-category-movie.svg';
+import { Program } from '../types/program';
 
 const StyledCardInfo = styled.div`
    display: flex;
@@ -25,19 +26,15 @@ const StyledCardInfo = styled.div`
    }
 `;
 
-interface CardInfoProps {
-   programType: 'Movie' | 'Series';
-   year: string;
-   rating: 'PG' | 'PG-13' | 'R';
-}
+interface CardInfoProps extends Pick<Program, 'category' | 'year' | 'rating'> {}
 
-export const CardInfo: React.FC<CardInfoProps> = ({ programType, year, rating }) => {
+export const CardInfo: React.FC<CardInfoProps> = ({ category, year, rating }) => {
    return (
       <StyledCardInfo>
          <p>{year}</p>
          <div className='dot'></div>
          <img src={MovieCategory} alt='' />
-         <p>{programType}</p>
+         <p>{category}</p>
          <div className='dot'></div>
          <p>{rating}</p>
       </StyledCardInfo>

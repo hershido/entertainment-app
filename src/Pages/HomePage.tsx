@@ -1,34 +1,38 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Heading } from '../atoms/Heading';
 import Nav from '../components/Nav';
-import { ProgramCard } from '../components/ProgramCard';
 import { Search } from '../components/Search';
 import { CardGrid } from '../containers/CardGrid';
 import Slider from '../containers/Slider';
+import { getPrograms } from '../firebase/firebaseConfig';
 import { useBreakpoint } from '../hooks/useBreakpoint';
+import { Program } from '../types/program';
+import _ from 'lodash';
+import { ProgramCard } from '../components/ProgramCard';
 
 const StyledHomePage = styled.div`
    position: relative;
    display: grid;
 
    width: 100%;
-   
+
    .right-container {
       display: grid;
       overflow: hidden;
       row-gap: 32px;
    }
-   
+
    @media screen and (min-width: 1025px) {
       gap: 32px;
       grid-auto-flow: column;
       grid-template-columns: max-content 1fr;
-      
+
       .right-container {
          margin-top: 32px;
          margin-bottom: 32px;
       }
-      
+
       .card-grid {
          margin: 0px 32px 0px 0px;
       }
@@ -39,7 +43,7 @@ const StyledHomePage = styled.div`
       .card-grid {
          margin: 0px 24px 0px 0px;
       }
-      
+
       .right-container {
          margin-left: 24px;
          margin-bottom: 24px;
@@ -51,7 +55,7 @@ const StyledHomePage = styled.div`
       .card-grid {
          margin: 0px 16px 0px 0px;
       }
-      
+
       .right-container {
          gap: 20px;
          margin-left: 16px;
@@ -62,6 +66,19 @@ const StyledHomePage = styled.div`
 
 const HomePage = () => {
    const breakpoint = useBreakpoint();
+   const [regularPrograms, setRegularPrograms] = useState<Program[]>();
+   const [trendingPrograms, setTrendingPrograms] = useState<Program[]>();
+
+   useEffect(() => {
+      getPrograms().then((programs) => {
+         const [trendingPrograms, regularPrograms] = _.partition(
+            programs,
+            (program: Program) => program.isTrending
+         );
+         setRegularPrograms(regularPrograms);
+         setTrendingPrograms(trendingPrograms);
+      });
+   }, []);
 
    return (
       <StyledHomePage>
@@ -70,209 +87,17 @@ const HomePage = () => {
             <Search />
             <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>Trending</Heading>
             <Slider>
-               <ProgramCard
-                  cardType='trending'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='trending'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='trending'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='trending'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='trending'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='trending'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='trending'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
+               {trendingPrograms &&
+                  trendingPrograms.map((program) => {
+                     return <ProgramCard {...program} />;
+                  })}
             </Slider>
             <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>Recommended for you</Heading>
             <CardGrid className='card-grid'>
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
-               <ProgramCard
-                  cardType='card-grid'
-                  programTitle='Shooko'
-                  programType='Movie'
-                  rating='PG-13'
-                  thumbnail='large.jpg'
-                  year='2019'
-               />
+               {regularPrograms &&
+                  regularPrograms.map((program) => {
+                     return <ProgramCard {...program} />;
+                  })}
             </CardGrid>
          </div>
       </StyledHomePage>

@@ -9,6 +9,7 @@ import { AuthProvider } from './context/authContext';
 import { PrivateRoute } from './Routes/PrivateRoute';
 import { FormRedirect } from './Routes/FormRedirect';
 
+
 function App() {
    return (
       <ThemeProvider theme={theme}>

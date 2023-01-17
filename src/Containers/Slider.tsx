@@ -19,7 +19,7 @@ const StyledInnerSlider = styled.div`
    grid-auto-columns: 470px;
    gap: 40px;
    width: max-content;
-   
+
    @media screen and (max-width: 750px) {
       gap: 16px;
       height: 140px;
@@ -28,7 +28,7 @@ const StyledInnerSlider = styled.div`
 `;
 
 interface SliderProps {
-   children: ReactNode;
+   children?: ReactNode;
 }
 
 const Slider: React.FC<SliderProps> = ({ children }) => {

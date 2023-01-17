@@ -4,21 +4,22 @@ import { Bookmark } from '../atoms/Bookmark';
 import { Heading } from '../atoms/Heading';
 import Body from '../containers/Body';
 import { useBreakpoint } from '../hooks/useBreakpoint';
+import { Program } from '../types/program';
 import { CardInfo } from './CardInfo';
 import { PlayButton } from './PlayButton';
 import { Thumbnail } from './Thumbnail';
 
-export const StyledProgramCard = styled.div<{ cardType: 'card-grid' | 'trending' }>`
+export const StyledProgramCard = styled.div<{ isTrending: Boolean }>`
    display: grid;
-   grid-template-rows: ${({ cardType }) => cardType === 'trending' && '230px'};
+   grid-template-rows: ${({ isTrending }) => isTrending && '230px'};
    .thumbnail,
    .play-button {
       grid-area: 1/1/2/2;
    }
    .card-info {
-      grid-area: ${({ cardType }) => (cardType === 'trending' ? '1/1/2/2' : '2/1/3/2 ')};
-      align-self: ${({ cardType }) => cardType === 'trending' && 'end'};
-      margin: ${({ cardType }) => cardType === 'trending' && '0px 0px 24px 24px'};
+      grid-area: ${({ isTrending }) => (isTrending ? '1/1/2/2' : '2/1/3/2 ')};
+      align-self: ${({ isTrending }) => isTrending && 'end'};
+      margin: ${({ isTrending }) => isTrending && '0px 0px 24px 24px'};
    }
    .play-button {
       display: flex;
@@ -29,40 +30,31 @@ export const StyledProgramCard = styled.div<{ cardType: 'card-grid' | 'trending'
    }
 
    @media screen and (max-width: 750px) {
-      grid-template-rows: ${({ cardType }) => cardType === 'trending' && '140px'};
+      grid-template-rows: ${({ isTrending }) => isTrending && '140px'};
       .card-info {
-
-         margin: ${({ cardType }) => cardType === 'trending' && '0px 0px 16px 16px'};
+         margin: ${({ isTrending }) => isTrending && '0px 0px 16px 16px'};
       }
-
    }
 `;
 
-interface ProgramCardProps {
-   programTitle: string;
-   programType: 'Movie' | 'Series';
-   year: string;
-   rating: 'PG' | 'PG-13' | 'R';
-   thumbnail: string;
-   cardType: 'card-grid' | 'trending';
-}
+interface ProgramCardProps extends Program {}
 
 export const ProgramCard: React.FC<ProgramCardProps> = ({
-   programTitle,
-   programType,
+   title,
+   category,
    year,
    thumbnail,
    rating,
-   cardType,
+   isTrending,
 }) => {
    const [isHovered, setIsHovered] = useState(false);
    const breakpoint = useBreakpoint();
    return (
       <StyledProgramCard
-         cardType={cardType}
+         isTrending={isTrending}
          onMouseEnter={() => setIsHovered(true)}
          onMouseLeave={() => setIsHovered(false)}>
-         <Thumbnail className='thumbnail' thumbnail={thumbnail} />
+         <Thumbnail className='thumbnail' thumbnail={thumbnail} isTrending={isTrending} />
          {isHovered && (
             <div className='play-button'>
                <PlayButton />
@@ -70,11 +62,11 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
          )}
          <Bookmark />
          <div className='card-info'>
-            <CardInfo programType={programType} year={year} rating={rating} />
+            <CardInfo category={category} year={year} rating={rating} />
             {breakpoint !== 'mobile' ? (
-               <Heading size={cardType === 'trending' ? 'S' : 'XS'}>{programTitle}</Heading>
+               <Heading size={isTrending ? 'S' : 'XS'}>{title}</Heading>
             ) : (
-               <p>{programTitle}</p>
+               <p>{title}</p>
             )}
          </div>
       </StyledProgramCard>
