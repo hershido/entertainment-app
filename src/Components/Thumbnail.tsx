@@ -39,10 +39,8 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ thumbnail, className, isTr
    );
 
    useEffect(() => {
-      console.log(thumbnail.regular.large);
       const thumbnailToUse = determineThumbnail(thumbnail);
       getThumbnailURL(thumbnailToUse).then((newThumbnailURL) => {
-         // console.log(newThumbnailURL);
          setGeneratedThumbnail(newThumbnailURL);
       });
    }, [thumbnail, breakpoint, determineThumbnail]);

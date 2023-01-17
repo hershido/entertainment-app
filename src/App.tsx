@@ -8,7 +8,7 @@ import { Login } from './Pages/Login';
 import { AuthProvider } from './context/authContext';
 import { PrivateRoute } from './Routes/PrivateRoute';
 import { FormRedirect } from './Routes/FormRedirect';
-
+import { ProgramContextProvider } from './context/programContext';
 
 function App() {
    return (
@@ -21,7 +21,9 @@ function App() {
                         path='/'
                         element={
                            <PrivateRoute>
-                              <HomePage />
+                              <ProgramContextProvider>
+                                 <HomePage />
+                              </ProgramContextProvider>
                            </PrivateRoute>
                         }
                      />

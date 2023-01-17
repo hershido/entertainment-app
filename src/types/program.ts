@@ -18,4 +18,5 @@ export interface Program {
    category: 'Movie' | 'TV Series';
    thumbnail: CardThumbnail;
    title: string;
+   id: string;
 }

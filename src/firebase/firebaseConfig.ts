@@ -1,8 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, query, where, getDocs, DocumentData } from 'firebase/firestore';
-import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
-
-import { data } from '../data';
+import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 import {
    getAuth,
@@ -33,7 +31,7 @@ export async function getPrograms() {
    const programs: Program[] = [];
    const querySnapshot = await getDocs(q);
    querySnapshot.forEach((doc) => {
-      programs.push(doc.data() as Program);
+      programs.push({ ...doc.data(), id: doc.id } as Program);
    });
    return programs;
 }

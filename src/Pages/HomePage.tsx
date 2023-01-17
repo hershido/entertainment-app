@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Heading } from '../atoms/Heading';
 import Nav from '../components/Nav';
 import { Search } from '../components/Search';
 import { CardGrid } from '../containers/CardGrid';
 import Slider from '../containers/Slider';
-import { getPrograms } from '../firebase/firebaseConfig';
 import { useBreakpoint } from '../hooks/useBreakpoint';
-import { Program } from '../types/program';
-import _ from 'lodash';
 import { ProgramCard } from '../components/ProgramCard';
+import { useProgramContext } from '../context/programContext';
 
 const StyledHomePage = styled.div`
    position: relative;
@@ -66,19 +63,7 @@ const StyledHomePage = styled.div`
 
 const HomePage = () => {
    const breakpoint = useBreakpoint();
-   const [regularPrograms, setRegularPrograms] = useState<Program[]>();
-   const [trendingPrograms, setTrendingPrograms] = useState<Program[]>();
-
-   useEffect(() => {
-      getPrograms().then((programs) => {
-         const [trendingPrograms, regularPrograms] = _.partition(
-            programs,
-            (program: Program) => program.isTrending
-         );
-         setRegularPrograms(regularPrograms);
-         setTrendingPrograms(trendingPrograms);
-      });
-   }, []);
+   const { trendingPrograms, regularPrograms } = useProgramContext();
 
    return (
       <StyledHomePage>
@@ -89,14 +74,14 @@ const HomePage = () => {
             <Slider>
                {trendingPrograms &&
                   trendingPrograms.map((program) => {
-                     return <ProgramCard {...program} />;
+                     return <ProgramCard key={program.id} {...program} />;
                   })}
             </Slider>
             <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>Recommended for you</Heading>
             <CardGrid className='card-grid'>
                {regularPrograms &&
                   regularPrograms.map((program) => {
-                     return <ProgramCard {...program} />;
+                     return <ProgramCard key={program.id} {...program} />;
                   })}
             </CardGrid>
          </div>

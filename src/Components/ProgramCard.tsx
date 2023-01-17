@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Bookmark } from '../atoms/Bookmark';
 import { Heading } from '../atoms/Heading';
-import Body from '../containers/Body';
 import { useBreakpoint } from '../hooks/useBreakpoint';
 import { Program } from '../types/program';
 import { CardInfo } from './CardInfo';
