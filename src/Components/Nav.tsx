@@ -9,6 +9,7 @@ import { NavIcon } from '../atoms/NavIcon';
 import { IconNavBookmark, IconNavHome, IconNavMovies, IconNavTvSeries } from '../iconComponents';
 import { Button } from '../atoms/Button';
 import { useAuth } from '../context/authContext';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
    .logo {
@@ -18,6 +19,10 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
    border-radius: 20px;
    background-color: ${({ theme }) => theme.colors.blue.semiDark};
    position: sticky;
+   .signout {
+      width: max-content;
+      padding: 0 10px;
+   }
 
    @media screen and (min-width: 1025px) {
       padding: 32px;
@@ -29,7 +34,7 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
       .category-selection {
          flex-direction: column;
       }
-      .avatar {
+      .profile {
          margin-top: auto;
       }
    }
@@ -63,6 +68,7 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
 
 const Nav: React.FC<{ className: string }> = ({ className }) => {
    const { signOutUser, currentUser } = useAuth();
+   const breakpoint = useBreakpoint();
    const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
    const handleScroll = () => {
       setIsHeaderScrolled(window.scrollY > 200 ? true : false);
@@ -87,16 +93,24 @@ const Nav: React.FC<{ className: string }> = ({ className }) => {
             justifyContent='space-between'
             alignItems='center'
             gap='40px'>
-            <Button onClick={signOutUser}>sign out</Button>
             <NavIcon Svg={IconNavHome} />
             <NavIcon Svg={IconNavMovies} />
             <NavIcon Svg={IconNavTvSeries} />
             <NavIcon Svg={IconNavBookmark} />
          </Flex>
-         <Avatar
-            src={`https://robohash.org/${currentUser?.email}.png?set=set1&size=500x500`}
-            className='avatar'
-         />
+         <Flex
+            alignItems='center'
+            direction={breakpoint === 'desktop' ? 'column' : 'row'}
+            gap='20px'
+            className='profile'>
+            <Button className='signout' onClick={signOutUser}>
+               sign out
+            </Button>
+            <Avatar
+               src={`https://robohash.org/${currentUser?.email}.png?set=set1&size=500x500`}
+               className='avatar'
+            />
+         </Flex>
       </StyledNav>
    );
 };
