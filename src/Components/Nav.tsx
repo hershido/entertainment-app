@@ -9,7 +9,6 @@ import { NavIcon } from '../atoms/NavIcon';
 import { IconNavBookmark, IconNavHome, IconNavMovies, IconNavTvSeries } from '../iconComponents';
 import { Button } from '../atoms/Button';
 import { useAuth } from '../context/authContext';
-import { useNavigate } from 'react-router-dom';
 
 const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
    .logo {
@@ -63,7 +62,7 @@ const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
 `;
 
 const Nav: React.FC<{ className: string }> = ({ className }) => {
-   const { signOutUser } = useAuth();
+   const { signOutUser, currentUser } = useAuth();
    const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
    const handleScroll = () => {
       setIsHeaderScrolled(window.scrollY > 200 ? true : false);
@@ -94,7 +93,10 @@ const Nav: React.FC<{ className: string }> = ({ className }) => {
             <NavIcon Svg={IconNavTvSeries} />
             <NavIcon Svg={IconNavBookmark} />
          </Flex>
-         <Avatar src='image-avatar.png' className='avatar' />
+         <Avatar
+            src={`https://robohash.org/${currentUser?.email}.png?set=set1&size=500x500`}
+            className='avatar'
+         />
       </StyledNav>
    );
 };
