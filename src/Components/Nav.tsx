@@ -10,6 +10,7 @@ import { IconNavBookmark, IconNavHome, IconNavMovies, IconNavTvSeries } from '..
 import { Button } from '../atoms/Button';
 import { useAuth } from '../context/authContext';
 import { useBreakpoint } from '../hooks/useBreakpoint';
+import { HOMEPAGE_STATES } from '../consts/hompageStates';
 
 const StyledNav = styled(StyledFlex)<{ isHeaderScrolled: boolean }>`
    .logo {
@@ -93,10 +94,10 @@ const Nav: React.FC<{ className: string }> = ({ className }) => {
             justifyContent='space-between'
             alignItems='center'
             gap='40px'>
-            <NavIcon Svg={IconNavHome} />
-            <NavIcon Svg={IconNavMovies} />
-            <NavIcon Svg={IconNavTvSeries} />
-            <NavIcon Svg={IconNavBookmark} />
+            <NavIcon state={HOMEPAGE_STATES.HOME} Svg={IconNavHome} />
+            <NavIcon state={HOMEPAGE_STATES.MOVIES} Svg={IconNavMovies} />
+            <NavIcon state={HOMEPAGE_STATES.TV} Svg={IconNavTvSeries} />
+            <NavIcon state={HOMEPAGE_STATES.BOOKMARKED} Svg={IconNavBookmark} />
          </Flex>
          <Flex
             alignItems='center'

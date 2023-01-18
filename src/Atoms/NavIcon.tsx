@@ -1,6 +1,8 @@
-import React, { SVGProps, useState } from 'react';
+import React, { SVGProps, useEffect, useState } from 'react';
 import { theme } from '../theme/theme';
 import styled from 'styled-components';
+import { HompageState } from '../consts/hompageStates';
+import { useProgramContext } from '../context/programContext';
 
 export const navIconStates = {
    IDLE: theme.colors.blue.greyish,
@@ -14,8 +16,16 @@ const StyledNavIcon = styled.div`
 
 export const NavIcon: React.FC<{
    Svg: React.FC<SVGProps<SVGSVGElement>>;
-}> = ({ Svg }) => {
+   state: HompageState;
+}> = ({ Svg, state }) => {
    const [navIconState, setNavIconState] = useState(navIconStates.IDLE);
+   const { hompageState, setHompageState } = useProgramContext();
+
+   useEffect(() => {
+      hompageState === state
+         ? setNavIconState(navIconStates.ACTIVE)
+         : setNavIconState(navIconStates.IDLE);
+   }, [hompageState, state]);
 
    return (
       <StyledNavIcon
@@ -25,13 +35,7 @@ export const NavIcon: React.FC<{
          onMouseLeave={() =>
             navIconState !== navIconStates.ACTIVE && setNavIconState(navIconStates.IDLE)
          }
-         onClick={() =>
-            setNavIconState(
-               navIconState === navIconStates.IDLE || navIconStates.HOVERED
-                  ? navIconStates.ACTIVE
-                  : navIconStates.IDLE
-            )
-         }>
+         onClick={() => setHompageState(state)}>
          <Svg fill={navIconState} />
       </StyledNavIcon>
    );

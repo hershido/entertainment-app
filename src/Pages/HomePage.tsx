@@ -7,6 +7,8 @@ import Slider from '../containers/Slider';
 import { useBreakpoint } from '../hooks/useBreakpoint';
 import { ProgramCard } from '../components/ProgramCard';
 import { useProgramContext } from '../context/programContext';
+import { HOMEPAGE_STATES } from '../consts/hompageStates';
+import { HEADINGS } from '../consts/heading';
 
 const StyledHomePage = styled.div`
    position: relative;
@@ -63,21 +65,25 @@ const StyledHomePage = styled.div`
 
 const HomePage = () => {
    const breakpoint = useBreakpoint();
-   const { trendingPrograms, regularPrograms } = useProgramContext();
+   const { trendingPrograms, regularPrograms, hompageState } = useProgramContext();
 
    return (
       <StyledHomePage>
          <Nav className='nav' />
          <div className='right-container'>
             <Search />
-            <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>Trending</Heading>
-            <Slider>
-               {trendingPrograms &&
-                  trendingPrograms.map((program) => {
-                     return <ProgramCard key={program.id} {...program} />;
-                  })}
-            </Slider>
-            <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>Recommended for you</Heading>
+            {hompageState === HOMEPAGE_STATES.HOME && (
+               <>
+                  <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>Trending</Heading>
+                  <Slider>
+                     {trendingPrograms &&
+                        trendingPrograms.map((program) => {
+                           return <ProgramCard key={program.id} {...program} />;
+                        })}
+                  </Slider>
+               </>
+            )}
+            <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>{HEADINGS[hompageState]}</Heading>
             <CardGrid className='card-grid'>
                {regularPrograms &&
                   regularPrograms.map((program) => {
