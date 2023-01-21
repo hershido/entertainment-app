@@ -1,5 +1,16 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
+import {
+   getFirestore,
+   collection,
+   query,
+   getDocs,
+   doc,
+   updateDoc,
+   setDoc,
+   getDoc,
+   arrayUnion,
+   arrayRemove,
+} from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 import {
@@ -58,6 +69,52 @@ export async function signInUser(email: string, password: string) {
       .catch((error) => {
          throw error;
       });
+}
+
+export async function setBookmark(programId: string) {
+   const bookMarkUserId = auth.currentUser?.uid;
+
+   if (!bookMarkUserId) return;
+
+   const docRef = doc(db, 'bookmarks', bookMarkUserId);
+   const docSnap = await getDoc(docRef);
+
+   if (docSnap.exists()) {
+      const { programs } = docSnap.data();
+      if (!programs.includes(programId)) {
+         console.log('add');
+         await updateDoc(docRef, {
+            programs: arrayUnion(programId),
+         });
+      } else {
+         console.log('remove');
+         await updateDoc(docRef, {
+            programs: arrayRemove(programId),
+         });
+      }
+   } else {
+      await setDoc(doc(db, 'bookmarks', bookMarkUserId), {
+         programs: [programId],
+      });
+   }
+}
+
+export async function getBookmarked(programId: string) {
+   const bookMarkUserId = auth.currentUser?.uid;
+
+   if (!bookMarkUserId) return false;
+   const docRef = doc(db, 'bookmarks', bookMarkUserId);
+   const docSnap = await getDoc(docRef);
+   if (docSnap.exists()) {
+      const { programs } = docSnap.data();
+      if (programs.includes(programId)) {
+         return true;
+      } else {
+         return false;
+      }
+   } else {
+      return false;
+   }
 }
 
 export async function authStateChanged(setterFunction: (user: any) => void) {

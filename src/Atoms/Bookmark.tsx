@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getBookmarked, setBookmark } from '../firebase/firebaseConfig';
 import { IconBookmark } from '../iconComponents';
-import EmptyBookmark from '../Icons/icon-bookmark-empty.svg';
-import FullBookmark from '../Icons/icon-bookmark-full.svg';
-import HoverBookmark from '../Icons/icon-bookmark-hover.svg';
 
 const StyledBookmark = styled.div<{ isHovered: boolean }>`
    grid-area: 1/1/2/2;
@@ -21,16 +19,29 @@ const StyledBookmark = styled.div<{ isHovered: boolean }>`
    cursor: pointer;
 `;
 
-export const Bookmark = () => {
-   const [isBookmarked, setIsBookMarked] = useState(false);
+export const Bookmark: React.FC<{ programId: string }> = ({ programId }) => {
+   const [isBookmarked, setIsBookmarked] = useState(false);
    const [isHovered, setIsHovered] = useState(false);
+
+   const getIsBookmarked = useCallback(() => {
+      getBookmarked(programId).then((result) => {
+         console.log(result);
+         setIsBookmarked(result);
+      });
+   }, [programId]);
+
+   useEffect(() => {
+      getIsBookmarked();
+   }, [getIsBookmarked]);
+
+   async function handleBookmarkClick() {
+      setIsBookmarked(!isBookmarked);
+      await setBookmark(programId);
+   }
 
    return (
       <StyledBookmark
-         onClick={() => {
-            setIsBookMarked(!isBookmarked);
-            setIsHovered(false);
-         }}
+         onClick={handleBookmarkClick}
          isHovered={isHovered}
          onMouseEnter={() => setIsHovered(true)}
          onMouseLeave={() => setIsHovered(false)}>
