@@ -10,7 +10,7 @@ import { Thumbnail } from './Thumbnail';
 
 export const StyledProgramCard = styled.div<{ isRenderedInTrending?: Boolean }>`
    display: grid;
-   grid-template-rows: ${({ isRenderedInTrending }) => isRenderedInTrending && '230px'};
+
    .thumbnail,
    .play-button {
       grid-area: 1/1/2/2;
@@ -29,9 +29,13 @@ export const StyledProgramCard = styled.div<{ isRenderedInTrending?: Boolean }>`
    }
 
    @media screen and (min-width: 1025px) {
+      grid-template-rows: ${({ isRenderedInTrending }) =>
+         isRenderedInTrending ? '230px' : '174px max-content'};
    }
 
    @media screen and (min-width: 751px) and (max-width: 1024px) {
+      grid-template-rows: ${({ isRenderedInTrending }) =>
+         isRenderedInTrending ? '230px' : '160px max-content'};
    }
 
    @media screen and (max-width: 750px) {

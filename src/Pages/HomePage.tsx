@@ -30,7 +30,6 @@ const StyledHomePage = styled.div`
       .right-container {
          margin-top: 32px;
          margin-bottom: 32px;
-         border: 3px solid red;
          grid-template-rows: repeat(2, max-content);
       }
 
@@ -88,7 +87,7 @@ const HomePage = () => {
                </>
             )}
             <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>{HEADINGS[homepageState]}</Heading>
-            <CardGrid className='card-grid'>
+            <CardGrid itemsLength={regularPrograms?.length} className='card-grid'>
                {regularPrograms &&
                   regularPrograms.map((program) => {
                      return <ProgramCard key={program.id} {...program} />;
