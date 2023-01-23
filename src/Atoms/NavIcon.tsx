@@ -19,13 +19,13 @@ export const NavIcon: React.FC<{
    state: HompageState;
 }> = ({ Svg, state }) => {
    const [navIconState, setNavIconState] = useState(navIconStates.IDLE);
-   const { hompageState, setHompageState } = useProgramContext();
+   const { homepageState, setHompageState } = useProgramContext();
 
    useEffect(() => {
-      hompageState === state
+      homepageState === state
          ? setNavIconState(navIconStates.ACTIVE)
          : setNavIconState(navIconStates.IDLE);
-   }, [hompageState, state]);
+   }, [homepageState, state]);
 
    return (
       <StyledNavIcon

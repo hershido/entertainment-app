@@ -13,8 +13,8 @@ import { HEADINGS } from '../consts/heading';
 const StyledHomePage = styled.div`
    position: relative;
    display: grid;
-
    width: 100%;
+   min-height: 100vh;
 
    .right-container {
       display: grid;
@@ -30,6 +30,8 @@ const StyledHomePage = styled.div`
       .right-container {
          margin-top: 32px;
          margin-bottom: 32px;
+         border: 3px solid red;
+         grid-template-rows: repeat(2, max-content);
       }
 
       .card-grid {
@@ -65,25 +67,27 @@ const StyledHomePage = styled.div`
 
 const HomePage = () => {
    const breakpoint = useBreakpoint();
-   const { trendingPrograms, regularPrograms, hompageState } = useProgramContext();
+   const { trendingPrograms, regularPrograms, homepageState } = useProgramContext();
 
    return (
       <StyledHomePage>
          <Nav className='nav' />
          <div className='right-container'>
             <Search />
-            {hompageState === HOMEPAGE_STATES.HOME && (
+            {homepageState === HOMEPAGE_STATES.HOME && (
                <>
                   <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>Trending</Heading>
                   <Slider>
                      {trendingPrograms &&
                         trendingPrograms.map((program) => {
-                           return <ProgramCard key={program.id} {...program} />;
+                           return (
+                              <ProgramCard isRenderedInTrending key={program.id} {...program} />
+                           );
                         })}
                   </Slider>
                </>
             )}
-            <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>{HEADINGS[hompageState]}</Heading>
+            <Heading size={breakpoint === 'mobile' ? 'M' : 'L'}>{HEADINGS[homepageState]}</Heading>
             <CardGrid className='card-grid'>
                {regularPrograms &&
                   regularPrograms.map((program) => {

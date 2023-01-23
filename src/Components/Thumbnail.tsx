@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getThumbnailURL } from '../firebase/firebaseConfig';
 import { useBreakpoint } from '../hooks/useBreakpoint';
 import { CardThumbnail, Program } from '../types/program';
+import { Loader } from './Loader';
 
 const StyledThumbnail = styled.div`
    display: grid;
@@ -15,19 +16,31 @@ const StyledThumbnail = styled.div`
       object-fit: cover;
       grid-area: 1/1/2/2;
    }
+
+   .image-placeholder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+   }
 `;
 
-interface ThumbnailProps extends Pick<Program, 'thumbnail' | 'isTrending'> {
+interface ThumbnailProps extends Pick<Program, 'thumbnail'> {
    className: string;
+   isRenderedInTrending?: boolean;
 }
 
-export const Thumbnail: React.FC<ThumbnailProps> = ({ thumbnail, className, isTrending }) => {
+export const Thumbnail: React.FC<ThumbnailProps> = ({
+   thumbnail,
+   className,
+   isRenderedInTrending,
+}) => {
    const breakpoint = useBreakpoint();
-   const [generatedThumbnail, setGeneratedThumbnail] = useState('');
+   const [generatedThumbnail, setGeneratedThumbnail] = useState<string>();
 
    const determineThumbnail = useCallback(
       (thumbnail: CardThumbnail) => {
-         if (isTrending) {
+         if (isRenderedInTrending) {
             return breakpoint === 'mobile' ? thumbnail.trending?.small : thumbnail.trending?.large;
          } else {
             if (breakpoint === 'mobile') return thumbnail.regular.small;
@@ -35,7 +48,7 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ thumbnail, className, isTr
             if (breakpoint === 'desktop') return thumbnail.regular.large;
          }
       },
-      [breakpoint, isTrending]
+      [breakpoint, isRenderedInTrending]
    );
 
    useEffect(() => {
@@ -47,7 +60,13 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ thumbnail, className, isTr
 
    return (
       <StyledThumbnail className={className}>
-         <img className='thumbnail-image' src={generatedThumbnail} alt=''></img>
+         {!generatedThumbnail ? (
+            <div className='image-placeholder'>
+               <Loader />
+            </div>
+         ) : (
+            <img className='thumbnail-image' src={generatedThumbnail} alt=''></img>
+         )}
       </StyledThumbnail>
    );
 };

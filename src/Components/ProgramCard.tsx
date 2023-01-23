@@ -8,17 +8,17 @@ import { CardInfo } from './CardInfo';
 import { PlayButton } from './PlayButton';
 import { Thumbnail } from './Thumbnail';
 
-export const StyledProgramCard = styled.div<{ isTrending: Boolean }>`
+export const StyledProgramCard = styled.div<{ isRenderedInTrending?: Boolean }>`
    display: grid;
-   grid-template-rows: ${({ isTrending }) => isTrending && '230px'};
+   grid-template-rows: ${({ isRenderedInTrending }) => isRenderedInTrending && '230px'};
    .thumbnail,
    .play-button {
       grid-area: 1/1/2/2;
    }
    .card-info {
-      grid-area: ${({ isTrending }) => (isTrending ? '1/1/2/2' : '2/1/3/2 ')};
-      align-self: ${({ isTrending }) => isTrending && 'end'};
-      margin: ${({ isTrending }) => isTrending && '0px 0px 24px 24px'};
+      grid-area: ${({ isRenderedInTrending }) => (isRenderedInTrending ? '1/1/2/2' : '2/1/3/2 ')};
+      align-self: ${({ isRenderedInTrending }) => isRenderedInTrending && 'end'};
+      margin: ${({ isRenderedInTrending }) => isRenderedInTrending && '0px 0px 24px 24px'};
    }
    .play-button {
       display: flex;
@@ -28,15 +28,23 @@ export const StyledProgramCard = styled.div<{ isTrending: Boolean }>`
       grid-area: 1/1/2/2;
    }
 
+   @media screen and (min-width: 1025px) {
+   }
+
+   @media screen and (min-width: 751px) and (max-width: 1024px) {
+   }
+
    @media screen and (max-width: 750px) {
-      grid-template-rows: ${({ isTrending }) => isTrending && '140px'};
+      grid-template-rows: ${({ isRenderedInTrending }) => isRenderedInTrending && '140px'};
       .card-info {
-         margin: ${({ isTrending }) => isTrending && '0px 0px 16px 16px'};
+         margin: ${({ isRenderedInTrending }) => isRenderedInTrending && '0px 0px 16px 16px'};
       }
    }
 `;
 
-interface ProgramCardProps extends Program {}
+interface ProgramCardProps extends Program {
+   isRenderedInTrending?: boolean;
+}
 
 export const ProgramCard: React.FC<ProgramCardProps> = ({
    title,
@@ -44,26 +52,31 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
    year,
    thumbnail,
    rating,
-   isTrending,
+   id,
+   isRenderedInTrending,
 }) => {
    const [isHovered, setIsHovered] = useState(false);
    const breakpoint = useBreakpoint();
    return (
       <StyledProgramCard
-         isTrending={isTrending}
+         isRenderedInTrending={isRenderedInTrending}
          onMouseEnter={() => setIsHovered(true)}
          onMouseLeave={() => setIsHovered(false)}>
-         <Thumbnail className='thumbnail' thumbnail={thumbnail} isTrending={isTrending} />
+         <Thumbnail
+            className='thumbnail'
+            thumbnail={thumbnail}
+            isRenderedInTrending={isRenderedInTrending}
+         />
          {isHovered && (
             <div className='play-button'>
                <PlayButton />
             </div>
          )}
-         <Bookmark />
+         <Bookmark programId={id} />
          <div className='card-info'>
             <CardInfo category={category} year={year} rating={rating} />
             {breakpoint !== 'mobile' ? (
-               <Heading size={isTrending ? 'S' : 'XS'}>{title}</Heading>
+               <Heading size={isRenderedInTrending ? 'S' : 'XS'}>{title}</Heading>
             ) : (
                <p>{title}</p>
             )}

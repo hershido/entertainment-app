@@ -117,6 +117,17 @@ export async function getBookmarked(programId: string) {
    }
 }
 
+export async function getUserBookmarks() {
+   const bookMarkUserId = auth.currentUser?.uid;
+   if (!bookMarkUserId) return false;
+   const docRef = doc(db, 'bookmarks', bookMarkUserId);
+   const docSnap = await getDoc(docRef);
+   if (docSnap.exists()) {
+      const { programs } = docSnap.data();
+      return programs;
+   }
+}
+
 export async function authStateChanged(setterFunction: (user: any) => void) {
    return onAuthStateChanged(auth, setterFunction);
 }
